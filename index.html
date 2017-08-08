@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Train Schedule</title>
+
+	<!-- Bootstrap CDN -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+
+	<script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>    
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Jumbotron Section -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="jumbotron nyt-articles-h1">
+                <span class="center-content"><h1 class="white-font">Catch Me If You Can!</h1>
+                <h2>A Wild Train Scheduler App</h2>
+            </div>
+        </div>
+    </div>
+
+	<!-- Current Train Schedule -->
+	<div class="row">
+        <div class="col-md-12" id="currentTrains">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                Current Train Schedule
+                </div>
+                <div class="panel-body" >
+                    <div class="row" id="headerRow">
+                        
+                        <div class="col-md-3">
+                            <h4>Train Name</h4>            
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <h4>Destination</h4>            
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <h4>Frequency (min)</h4>            
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <h4>Next Arrival Time</h4>            
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <h4>Minutes Away</h4>            
+                        </div>
+                        
+                    </div>
+
+                    <hr>
+					
+					<!-- Train info dynamically popluates here -->
+                    <div class="row" id="trainData"></div> 
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add a Train to the Schedule! -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+               
+                <div class="panel-heading">
+                    <h3 class="panel-title">Add a Train</h3>
+                </div>
+                
+                <div class="panel-body">
+                    <label for="trainName">Train Name</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="name-input" aria-describedby="basic-addon1">
+                    </div>
+
+                    <label for="destination">Destination</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="destination-input" aria-describedby="basic-addon2">
+                    </div>
+
+                    <label for="startTime">First Train Time (Military Time)</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="startTime-input" aria-describedby="basic-addon3" placeholder="15:30">
+                    </div>
+
+                    <label for="frequency">Frequency (min)</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="frequency-input" aria-describedby="basic-addon4">
+                    </div>
+                    
+                    <button type="button" class="btn btn-primary" id="add">Add</button>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Link to JS -->
+<script type="text/javascript" src="assets/javascript/app.js"></script>
+</body>
+</html>
