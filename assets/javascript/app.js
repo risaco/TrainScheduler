@@ -3,66 +3,122 @@
 $(document).ready(function() {
     // Firebase Init
     var config = {
-        apiKey: "AIzaSyCkOKvemoaIHzwCXXzssVxJeiAN38tqvOI",
-        authDomain: "employee-database-d9e5a.firebaseapp.com",
-        databaseURL: "https://employee-database-d9e5a.firebaseio.com",
-        projectId: "employee-database-d9e5a",
-        storageBucket: "",
-        messagingSenderId: "450233857300"
-    };
-    firebase.initializeApp(config);
+	    apiKey: "AIzaSyArPEgK6D0RSJTJZb8oqjDrtKHbhGeYjgo",
+	    authDomain: "catchthetrain-61e17.firebaseapp.com",
+	    databaseURL: "https://catchthetrain-61e17.firebaseio.com",
+	    projectId: "catchthetrain-61e17",
+	    storageBucket: "",
+	    messagingSenderId: "1036705812575"
+  	};
+  	firebase.initializeApp(config);
 
 
     // Create a variable to reference the database.
     var database = firebase.database();
 
-    // Initial Values for Database Storage
-    var name = "";
-    var role = "";
-    var startDate = "";
-    var monthlyRate = "";
-
     // Capture Button Click
     $("#add").on("click", function(event) {
         event.preventDefault();
 
-        // Grabbed values from text boxes
-        name = $("#name-input").val().trim();
-        role = $("#role-input").val().trim();
-        startDate = $("#startDate-input").val().trim();
-        monthlyRate = $("#monthlyRate-input").val().trim();
+        // Grabbed user input from text boxes
+        var name = $("#name-input").val().trim();
+        var destination = $("#destination-input").val().trim();
+        var startTime = $("#startTime-input").val().trim();
+        var frequency = $("#frequency-input").val().trim();
+
+        // Creates local "temporary" object for new trains
+        var newTrain = {
+
+        	name: name,
+            destination: destination,
+            startTime: startTime,
+            frequency: frequency,
+            dateAdded: firebase.database.ServerValue.TIMESTAMP	
+        };
 
         // Code for handling the push
-        database.ref().push({
-            name: name,
-            role: role,
-            startDate: startDate,
-            monthlyRate: monthlyRate,
-            dateAdded: firebase.database.ServerValue.TIMESTAMP
-        
-        });
+        database.ref().push(newTrain);
 
+        // log everythig to console
+        console.log(newTrain.name);
+        console.log(newTrain.destination);
+        console.log(newTrain.startTime);
+        console.log(newTrain.frequency);
+
+        // Clears all of the text-boxes
+  		$("#name-input").val("");
+  		$("#destination-input").val("");
+ 		$("#startTime-input").val("");
+  		$("#frequency-input").val("");
     });
 
-    // Firebase watcher + initial loader + order/limit HINT: .on("child_added"
-    database.ref().orderByChild("dateAdded").limitToLast(1).on("child_added", function(snapshot) {
-        // storing the snapshot.val() in a variable for convenience
-        var sv = snapshot.val();
+    // 3. Create Firebase event for adding train to the database and a row in the html when a user adds an entry
+	database.ref().on("child_added", function(childSnapshot, prevChildKey) {
 
-        // Console.loging the last user's data
-        console.log(sv.name);
-        console.log(sv.role);
-        console.log(sv.startDate);
-        console.log(sv.monthlyRate);
+  	console.log(childSnapshot.val());
 
-        // Change the HTML to reflect
-        $("#name-display").html(sv.name);
-        $("#email-display").html(sv.role);
-        $("#age-display").html(sv.startDate);
-        $("#comment-display").html(sv.monthlyRate);
+  	// Store everything into a variable.
+  	var name = childSnapshot.val().name;
+  	var destination = childSnapshot.val().destination;
+  	var startTime = childSnapshot.val().startTime;
+  	var frequency = childSnapshot.val().frequency;
 
-        // Handle the errors
-    }, function(errorObject) {
-        console.log("Errors handled: " + errorObject.code);
-    });
+  	// Employee Info
+  	console.log(name);
+  	console.log(destination);
+  	console.log(startTime);
+  	console.log(frequency);
+
+  	// Using frequency and start time, calulate time to nextTrain
+
+      // minutesPassed = (currentTime - startTime)
+      // minutesIn = minutesPassed % frequency
+      // minutesLeft = frequency - minutesIn
+
+      // nextTrain = currentTime + minutesLeft
+
+    // Start Time (pushed back 1 year to make sure it comes before current time)
+    var startTimeConverted = moment(startTime, "hh:mm").subtract(1, "years");
+    console.log(startTimeConverted);
+
+    // Current Time
+    var currentTime = moment();
+    console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+
+    // Difference between the times -- minutes passed since first train left
+    var totalMinPassed = moment().diff(moment(startTimeConverted), "minutes");
+    console.log("DIFFERENCE IN TIME: " + totalMinPassed);
+
+    // Time apart (remainder) -- minutes passed since the last train left
+    var minFromLast = totalMinPassed % frequency;
+    console.log(minFromLast);
+
+    // Minutes Until Next Train Arrives
+    var minToNext = frequency - minFromLast;
+    console.log("MINUTES TILL TRAIN: " + minToNext);
+
+    // Next Train Arrival time
+    var nextTrain = moment().add(minToNext, "minutes");
+    console.log("ARRIVAL TIME: " + moment(nextTrain).format('LT'));
+
+    var nextTrainTime = moment(nextTrain).format("LT");
+
+
+  	// Add each train's data into the table
+  	$("#train-table > tbody").append("<tr><td>" + name + "</td><td>" + destination + "</td><td>" +
+  	frequency + "</td><td>" + nextTrainTime + "</td><td>" + minToNext + "</td></tr>");
+});
+
+// Example Time Math
+// -----------------------------------------------------------------------------
+// Assume Employee start date of January 1, 2015
+// Assume current date is March 1, 2016
+
+// We know that this is 15 months.
+// Now we will create code in moment.js to confirm that any attempt we use mets this test case
+
+//         // Handle the errors
+//     }, function(errorObject) {
+//         console.log("Errors handled: " + errorObject.code);
+//     });
 });

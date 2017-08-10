@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+	<meta charset="UTF-8">
 	<title>Train Schedule</title>
 
 	<!-- Bootstrap CDN -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Gravitas+One|Vast+Shadow" rel="stylesheet">
     
     <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
 	<script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>    
 
@@ -16,6 +21,11 @@
 
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+
+    <!-- Moment.js -->
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+
 
 </head>
 <body>
@@ -36,41 +46,27 @@
 	<div class="row">
         <div class="col-md-12" id="currentTrains">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                Current Train Schedule
+                <div class="panel-heading"><h3 class="panel-title"><strong>Current Train Schedule</strong></h3>
                 </div>
                 <div class="panel-body" >
-                    <div class="row" id="headerRow">
-                        
-                        <div class="col-md-3">
-                            <h4>Train Name</h4>            
-                        </div>
-                        
-                        <div class="col-md-3">
-                            <h4>Destination</h4>            
-                        </div>
-                        
-                        <div class="col-md-2">
-                            <h4>Frequency (min)</h4>            
-                        </div>
-                        
-                        <div class="col-md-2">
-                            <h4>Next Arrival Time</h4>            
-                        </div>
-                        
-                        <div class="col-md-2">
-                            <h4>Minutes Away</h4>            
-                        </div>
-                        
-                    </div>
+                    <table class="table table-hover" id='train-table'>
+	                	<thead>
+		                  	<tr>
+		                        <th>Train Name</th>            
+		                        <th>Destination</th>            
+		                        <th>Frequency (min)</th>            
+								<th>Next Arrival Time</th>            
+		                        <th>Minutes Away</th>            
+		                    </tr>
+	                   	</thead>
+						
+						<!-- Train info dynamically popluates here -->
+	                    <tbody></tbody>
 
-                    <hr>
-					
-					<!-- Train info dynamically popluates here -->
-                    <div class="row" id="trainData"></div> 
-
+                    </table>    
                 </div>
             </div>
+            
         </div>
     </div>
 
@@ -78,29 +74,29 @@
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
-               
                 <div class="panel-heading">
-                    <h3 class="panel-title">Add a Train</h3>
+                    <h3 class="panel-title"><strong>Add a Train</strong></h3>
                 </div>
                 
                 <div class="panel-body">
-                    <label for="trainName">Train Name</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="name-input" aria-describedby="basic-addon1">
+                <form>
+                    <div class="form-group">
+	                    <label for="name">Train Name</label> 
+	                    <input type="text" class="form-control" id="name-input" aria-describedby="basic-addon1">
                     </div>
 
-                    <label for="destination">Destination</label>
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="destination-input" aria-describedby="basic-addon2">
+                    <div class="form-group">
+                    	<label for="destination">Destination</label>
+						<input type="text" class="form-control" id="destination-input" aria-describedby="basic-addon2">
                     </div>
 
-                    <label for="startTime">First Train Time (Military Time)</label>
-                    <div class="input-group">
+                    <div class="form-group">
+                        <label for="startTime">First Train Time (Military Time)</label>
                         <input type="text" class="form-control" id="startTime-input" aria-describedby="basic-addon3" placeholder="15:30">
                     </div>
 
-                    <label for="frequency">Frequency (min)</label>
-                    <div class="input-group">
+                    <div class="form-group">
+                    	<label for="frequency">Frequency (min)</label>
                         <input type="text" class="form-control" id="frequency-input" aria-describedby="basic-addon4">
                     </div>
                     
