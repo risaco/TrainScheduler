@@ -5,7 +5,7 @@ $(document).ready(function() {
     var config = {
 	    apiKey: "AIzaSyArPEgK6D0RSJTJZb8oqjDrtKHbhGeYjgo",
 	    authDomain: "catchthetrain-61e17.firebaseapp.com",
-	    databaseURL: "http://catchthetrain-61e17.firebaseio.com",
+	    databaseURL: "https://catchthetrain-61e17.firebaseio.com",
 	    projectId: "catchthetrain-61e17",
 	    storageBucket: "",
 	    messagingSenderId: "1036705812575"
